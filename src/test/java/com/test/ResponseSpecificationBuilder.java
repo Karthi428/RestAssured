@@ -1,4 +1,5 @@
-import io.restassured.RestAssured;
+package com.test;
+
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
@@ -44,7 +45,7 @@ public class ResponseSpecificationBuilder
                 log(LogDetail.ALL);
         responseSpecification = responseSpecBuilder.build();
     }
-    @org.testng.annotations.Test
+    @Test
     public void statusCodeCheck()
     {
         given().spec(requestSpecification).get("/workspaces").
