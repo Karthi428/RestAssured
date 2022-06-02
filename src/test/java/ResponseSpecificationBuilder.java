@@ -58,6 +58,5 @@ public class ResponseSpecificationBuilder
         Response response = given().spec(requestSpecification).get("/workspaces").
                 then().spec(responseSpecification).
                 log().all().extract().response();
-
     }
 }
