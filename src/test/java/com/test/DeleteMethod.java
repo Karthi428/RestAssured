@@ -5,14 +5,14 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
 import io.restassured.filter.log.LogDetail;
 import io.restassured.http.ContentType;
-import io.restassured.specification.RequestSpecification;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.given;
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.matchesPattern;
 
-public class PostBddStyle
+public class DeleteMethod
 {
     @BeforeClass
     public void beforeClass()
@@ -37,21 +37,18 @@ public class PostBddStyle
     @Test
     public void validate_post_request_bdd_style()
     {
-        String payload = "{\n" +
-                "    \"workspace\":{\n" +
-                "    \"name\":\"firstWorkspace\",\n" +
-                "    \"type\":\"personal\",\n" +
-                "    \"description\":\"Rest Assured created this\"\n" +
-                "    }\n" +
-                "}";
+        String workspaceId  = "b977196c-e8ea-4ee2-b710-8de488b2debd";
         given().
-                body(payload).
-        when().
-                put("/workspaces/").
-        then().
+                //You can send the workspace id through the Path Parameter
+                        pathParam("workspaceId", workspaceId).
+                when().
+                //PUT Method and you need to specify the workspaceId inside the Curly Braces
+                        delete("/workspaces/{workspaceId}").
+                then().
+                log().all().
                 assertThat().
-                body("workspace.name", equalTo("firstWorkspace"),
-                        "workspace.id", matchesPattern("^[a-z0-9-]{36}$"));
+                body("workspace.id", matchesPattern("^[a-z0-9-]{36}$"),
+                        "workspace.id",equalTo(workspaceId));
 
 
     }

@@ -12,7 +12,7 @@ import org.testng.annotations.Test;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
 
-public class PostBddStyle
+public class PutMethod
 {
     @BeforeClass
     public void beforeClass()
@@ -39,18 +39,22 @@ public class PostBddStyle
     {
         String payload = "{\n" +
                 "    \"workspace\":{\n" +
-                "    \"name\":\"firstWorkspace\",\n" +
+                //Here "newWorkspacesName" is the new workspace name
+                "    \"name\":\"newWorkspacesName\",\n" +
                 "    \"type\":\"personal\",\n" +
                 "    \"description\":\"Rest Assured created this\"\n" +
                 "    }\n" +
                 "}";
         given().
                 body(payload).
-        when().
-                put("/workspaces/").
-        then().
+                //You can send the workspace id through the Path Parameter
+                pathParam("workspaceId","b977196c-e8ea-4ee2-b710-8de488b2debd").
+                when().
+                //PUT Method and you need to specify the workspaceId inside the Curly Braces
+                put("/workspaces/{workspaceId}").
+                then().
                 assertThat().
-                body("workspace.name", equalTo("firstWorkspace"),
+                body("workspace.name", equalTo("newWorkspacesName"),
                         "workspace.id", matchesPattern("^[a-z0-9-]{36}$"));
 
 

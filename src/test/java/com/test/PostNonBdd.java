@@ -38,7 +38,7 @@ public class PostNonBdd
 //        RestAssured.responseSpecification = responseSpecBuilder.build();
     }
     @Test
-    public void validate_post_request_bdd_style()
+    public void validate_post_request_non_bdd_style()
     {
         String payload = "{\n" +
                 "    \"workspace\":{\n" +
