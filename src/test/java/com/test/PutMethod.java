@@ -35,7 +35,7 @@ public class PutMethod
         RestAssured.responseSpecification = responseSpecBuilder.build();
     }
     @Test
-    public void validate_post_request_bdd_style()
+    public void validate_put_request()
     {
         String payload = "{\n" +
                 "    \"workspace\":{\n" +

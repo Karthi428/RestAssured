@@ -8,11 +8,13 @@ import io.restassured.http.ContentType;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.File;
+
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.matchesPattern;
 
-public class DeleteMethod
+public class SendAsFile
 {
     @BeforeClass
     public void beforeClass()
@@ -35,20 +37,18 @@ public class DeleteMethod
         RestAssured.responseSpecification = responseSpecBuilder.build();
     }
     @Test
-    public void validate_delete_request()
+    public void validate_post_request_bdd_style()
     {
-        String workspaceId  = "b977196c-e8ea-4ee2-b710-8de488b2debd";
+        File file = new File("src/main/resources/CreateWorkspacePayload.json");
         given().
-                //You can send the workspace id through the Path Parameter
-                        pathParam("workspaceId", workspaceId).
+                body(file).
                 when().
-                //PUT Method and you need to specify the workspaceId inside the Curly Braces
-                        delete("/workspaces/{workspaceId}").
+                post("/workspaces/").
                 then().
                 log().all().
                 assertThat().
-                body("workspace.id", matchesPattern("^[a-z0-9-]{36}$"),
-                        "workspace.id",equalTo(workspaceId));
+                body("workspace.name", equalTo("myfirstWorkspace"),
+                        "workspace.id", matchesPattern("^[a-z0-9-]{36}$"));
 
 
     }
